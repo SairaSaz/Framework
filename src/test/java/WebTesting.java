@@ -9,6 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
 import java.time.Duration;
 
 public class WebTesting {
@@ -27,7 +28,8 @@ public class WebTesting {
     public void testLogos() {
 
         WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
-        cookie.click();wait.until(ExpectedConditions.invisibilityOf(cookie));
+        cookie.click();
+        wait.until(ExpectedConditions.invisibilityOf(cookie));
 
         WebElement visa = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='Visa']")));
         Assert.assertTrue(visa.isDisplayed(), "Логотип Visa не найден");
@@ -44,6 +46,7 @@ public class WebTesting {
         WebElement belkart = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//img[@alt='Белкарт'])[1]")));
         Assert.assertTrue(belkart.isDisplayed(), "Логотип Белкарт не найден");
     }
+
     @Test
     public void testBlockTitle() {
         final By COOKIE_BUTTON = By.xpath("//*[text() = 'Принять']");
@@ -58,9 +61,9 @@ public class WebTesting {
 
     @Test
     public void testLinkDetails() {
-            WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
-            cookie.click();
-            wait.until(ExpectedConditions.invisibilityOf(cookie));
+        WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
+        cookie.click();
+        wait.until(ExpectedConditions.invisibilityOf(cookie));
 
         WebElement link = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Подробнее о сервисе')]")));
         String oldUrl = driver.getCurrentUrl();
@@ -72,9 +75,9 @@ public class WebTesting {
 
     @Test
     public void testButtonContinue() {
-            WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
-            cookie.click();
-            wait.until(ExpectedConditions.invisibilityOf(cookie));
+        WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
+        cookie.click();
+        wait.until(ExpectedConditions.invisibilityOf(cookie));
 
         WebElement service = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Услуги связи')]")));
         service.click();
