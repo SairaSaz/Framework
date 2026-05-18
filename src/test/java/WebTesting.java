@@ -25,6 +25,18 @@ public class WebTesting {
     }
 
     @Test
+    public void testBlockTitle() {
+        final By COOKIE_BUTTON = By.xpath("//*[text() = 'Принять']");
+        final By NAME_BLOCK = By.xpath("//h2[contains(normalize-space(), 'Онлайн пополнение без комиссии')]");
+
+        WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(NAME_BLOCK));
+        String actualTitle = titleElement.getText().replaceAll("\\s+", " ").trim();
+        String expectedTitle = "Онлайн пополнение без комиссии";
+
+        Assert.assertEquals(actualTitle, expectedTitle, "Заголовок блока не соответствует");
+    }
+
+    @Test
     public void testLogos() {
 
         WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
@@ -47,17 +59,6 @@ public class WebTesting {
         Assert.assertTrue(belkart.isDisplayed(), "Логотип Белкарт не найден");
     }
 
-    @Test
-    public void testBlockTitle() {
-        final By COOKIE_BUTTON = By.xpath("//*[text() = 'Принять']");
-        final By NAME_BLOCK = By.xpath("//h2[contains(normalize-space(), 'Онлайн пополнение без комиссии')]");
-
-        WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(NAME_BLOCK));
-        String actualTitle = titleElement.getText().replaceAll("\\s+", " ").trim();
-        String expectedTitle = "Онлайн пополнение без комиссии";
-
-        Assert.assertEquals(actualTitle, expectedTitle, "Заголовок блока не соответствует");
-    }
 
     @Test
     public void testLinkDetails() {
