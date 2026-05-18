@@ -9,10 +9,10 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.time.Duration;
 
 public class WebTesting {
+
     protected WebDriver driver;
     protected WebDriverWait wait;
 
@@ -20,73 +20,80 @@ public class WebTesting {
     public void setUp() {
         driver = DriverManager.getDriver();
         driver.get("https://www.mts.by/");
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // Тест для проверки названия блока
-    @Test(priority = 1)
+    @Test
+    public void testLogos() {
+
+        WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
+        cookie.click();wait.until(ExpectedConditions.invisibilityOf(cookie));
+
+        WebElement visa = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='Visa']")));
+        Assert.assertTrue(visa.isDisplayed(), "Логотип Visa не найден");
+
+        WebElement verified = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='Verified By Visa']")));
+        Assert.assertTrue(verified.isDisplayed(), "Логотип Verified By Visa не найден");
+
+        WebElement mastercard = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//img[@alt='MasterCard'])[1]")));
+        Assert.assertTrue(mastercard.isDisplayed(), "Логотип MasterCard не найден");
+
+        WebElement secure = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//img[@alt='MasterCard Secure Code']")));
+        Assert.assertTrue(secure.isDisplayed(), "Логотип MasterCard Secure Code не найден");
+
+        WebElement belkart = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//img[@alt='Белкарт'])[1]")));
+        Assert.assertTrue(belkart.isDisplayed(), "Логотип Белкарт не найден");
+    }
+    @Test
     public void testBlockTitle() {
         final By COOKIE_BUTTON = By.xpath("//*[text() = 'Принять']");
-        final By NAME_BLOCK = By.xpath("//h2[contains(normalize-space(), 'Онлайн пополнение')]");
+        final By NAME_BLOCK = By.xpath("//h2[contains(normalize-space(), 'Онлайн пополнение без комиссии')]");
 
-        // Принимаем cookies
-        try {
-            WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(COOKIE_BUTTON));
-            cookieButton.click();
-            wait.until(ExpectedConditions.invisibilityOfElementLocated(COOKIE_BUTTON));
-            System.out.println("Куки приняты");
-        } catch (Exception e) {
-            System.out.println("Кнопка cookie не найдена или уже принята");
-        }
-
-        // Проверка заголовка блока
         WebElement titleElement = wait.until(ExpectedConditions.visibilityOfElementLocated(NAME_BLOCK));
         String actualTitle = titleElement.getText().replaceAll("\\s+", " ").trim();
         String expectedTitle = "Онлайн пополнение без комиссии";
 
-        Assert.assertEquals(actualTitle, expectedTitle,
-                "Заголовок блока не соответствует ожидаемому. Ожидалось: " + expectedTitle + ", получено: " + actualTitle);
-
-        System.out.println("Проверка заголовка: Успешно");
+        Assert.assertEquals(actualTitle, expectedTitle, "Заголовок блока не соответствует");
     }
 
-    // Тест для проверки наличия логотипов платежных систем
-    @Test(priority = 2)
-    public void testPaymentLogos() {
-        final By COOKIE_BUTTON = By.xpath("//*[text() = 'Принять']");
-        final By LOGO_VISA = By.xpath("//img[@alt='Visa']");
-        final By LOGO_VERIFIED = By.xpath("//li/img[@alt='Verified By Visa']");
-        final By LOGO_MASTERCARD = By.xpath("(//div/ul/li/img[@alt='MasterCard'])[1]");
-        final By LOGO_MASTERCARD_SECURE = By.xpath("//img[@alt='MasterCard Secure Code']");
-        final By LOGO_BELKART = By.xpath("(//div/ul/li/img[@alt='Белкарт'])[1]");
+    @Test
+    public void testLinkDetails() {
+            WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
+            cookie.click();
+            wait.until(ExpectedConditions.invisibilityOf(cookie));
 
-        // Проверка наличия логотипов платежных систем
-        Assert.assertTrue(isElementDisplayed(LOGO_VISA), "Логотип Visa не отображается");
-        System.out.println("✓ Логотип Visa найден");
+        WebElement link = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Подробнее о сервисе')]")));
+        String oldUrl = driver.getCurrentUrl();
+        link.click();
 
-        Assert.assertTrue(isElementDisplayed(LOGO_VERIFIED), "Логотип Verified By Visa не отображается");
-        System.out.println("✓ Логотип Verified By Visa найден");
-
-        Assert.assertTrue(isElementDisplayed(LOGO_MASTERCARD), "Логотип MasterCard не отображается");
-        System.out.println("✓ Логотип MasterCard найден");
-
-        Assert.assertTrue(isElementDisplayed(LOGO_MASTERCARD_SECURE), "Логотип MasterCard Secure Code не отображается");
-        System.out.println("✓ Логотип MasterCard Secure Code найден");
-
-        Assert.assertTrue(isElementDisplayed(LOGO_BELKART), "Логотип Белкарт не отображается");
-        System.out.println("✓ Логотип Белкарт найден");
-
-        System.out.println("Проверка логотипов: Успешно");
+        String newUrl = driver.getCurrentUrl();
+        Assert.assertNotEquals(oldUrl, newUrl, "Ссылка не работает");
     }
 
-    // Вспомогательный метод для проверки отображения элемента
-    private boolean isElementDisplayed(By locator) {
+    @Test
+    public void testButtonContinue() {
+            WebElement cookie = driver.findElement(By.xpath("//*[text()='Принять']"));
+            cookie.click();
+            wait.until(ExpectedConditions.invisibilityOf(cookie));
+
+        WebElement service = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Услуги связи')]")));
+        service.click();
+
+        WebElement phone = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Номер телефона']")));
+        phone.clear();
+        phone.sendKeys("297777777");
+
+        WebElement sum = driver.findElement(By.xpath("//form[1]//input[@placeholder='Сумма']"));
+        sum.clear();
+        sum.sendKeys("11");
+
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Продолжить')]")));
+        Assert.assertTrue(button.isEnabled(), "Кнопка не активна");
+        button.click();
         try {
-            WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            WebElement element = shortWait.until(ExpectedConditions.visibilityOfElementLocated(locator));
-            return element.isDisplayed();
-        } catch (Exception e) {
-            return false;
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
