@@ -19,16 +19,16 @@ public class PaymentFormPage extends BasePage {
     private WebElement phoneField;
 
     @FindBy(xpath = "//input[@placeholder='Номер абонента']")
-    private WebElement internetField ;
+    private WebElement internetField;
 
     @FindBy(xpath = "//input[contains(@placeholder, 'Номер счета') or contains(@placeholder, 'Номер договора')]")
     private WebElement installmentField;
 
     @FindBy(xpath = "//input[@placeholder='Номер счета']")
-    private WebElement debtField ;
+    private WebElement debtField;
 
     @FindBy(xpath = "//input[@placeholder='Сумма']")
-    private WebElement amountField ;
+    private WebElement amountField;
 
     @FindBy(xpath = "//button[contains(text(),'Продолжить')]")
     private WebElement continueButton;
@@ -44,14 +44,12 @@ public class PaymentFormPage extends BasePage {
             driver.switchTo().defaultContent();
             WebElement frame = wait.until(ExpectedConditions.presenceOfElementLocated(iframe));
             driver.switchTo().frame(frame);
-            System.out.println("✓ Переключились в IFrame");
         } catch (Exception e) {
-            System.out.println("ℹ IFrame не найден");
         }
     }
+
     private void switchToDefault() {
         driver.switchTo().defaultContent();
-        System.out.println("✓ Вернулись из IFrame");
     }
 
     private WebElement getFieldByPaymentType(String paymentType) {
@@ -109,6 +107,7 @@ public class PaymentFormPage extends BasePage {
 
         return this;
     }
+
     public boolean isContinueButtonEnabled() {
         return continueButton.isEnabled();
     }

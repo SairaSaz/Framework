@@ -17,11 +17,13 @@ public class MainPageService {
                 .acceptCookie();
         return this;
     }
+
     @Step("block Title")
     public String getBlockTitle() {
         return mainPage.getBlockTitle();
     }
-   @Step("are All Logos Displayed")
+
+    @Step("are All Logos Displayed")
     public boolean areAllLogosDisplayed() {
         return mainPage.isVisaLogoDisplayed() &&
                 mainPage.isVerifiedLogoDisplayed() &&
@@ -29,16 +31,19 @@ public class MainPageService {
                 mainPage.isSecureCodeLogoDisplayed() &&
                 mainPage.isBelkartLogoDisplayed();
     }
+
     @Step("click Details Link(")
     public MainPageService clickDetailsLink() {
         mainPage.clickDetailsLink();
         return this;
     }
+
     @Step(" Current Url")
     public String getCurrentUrl() {
         return mainPage.getCurrentUrl();
     }
-   @Step("select Payment Type")
+
+    @Step("select Payment Type")
     public PaymentFormService selectPaymentType(String paymentType) {
         PaymentFormPage paymentFormPage = mainPage.selectPaymentType(paymentType);
         return new PaymentFormService(paymentFormPage);

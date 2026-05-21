@@ -1,5 +1,5 @@
 import jdk.jfr.Description;
-import org.example.service.MainPageService;
+
 import org.example.service.PaymentFormService;
 import org.example.utils.Constants;
 import org.testng.Assert;
@@ -16,6 +16,7 @@ public class WebTesting extends BaseTest {
 
         Assert.assertEquals(actualTitle, expectedTitle, "Заголовок блока не соответствует!");
     }
+
     @Test(priority = 2)
     @Description("test Payment Logos")
     public void testPaymentLogos() {
@@ -46,6 +47,7 @@ public class WebTesting extends BaseTest {
 
         Assert.assertTrue(form.isContinueButtonEnabled(), "Кнопка 'Продолжить' не активна");
     }
+
     @Test(priority = 5, dataProvider = "paymentTypes")
     @Description("Test Placeholder")
     public void testPlaceholders(String paymentType, String expectedPlaceholder) {
@@ -58,6 +60,7 @@ public class WebTesting extends BaseTest {
         Assert.assertTrue(form.isFieldEmpty(paymentType),
                 "Поле для " + paymentType + " должно быть пустым!");
     }
+
     @DataProvider(name = "paymentTypes")
     public Object[][] paymentTypes() {
         return new Object[][]{

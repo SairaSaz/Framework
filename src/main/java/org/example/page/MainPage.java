@@ -41,6 +41,7 @@ public class MainPage extends BasePage {
         driver.get(url);
         return this;
     }
+
     public MainPage acceptCookie() {
         try {
             cookieButton.click();
@@ -77,9 +78,11 @@ public class MainPage extends BasePage {
         detailsLink.click();
         return this;
     }
+
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
+
     public PaymentFormPage selectPaymentType(String paymentType) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
@@ -88,7 +91,6 @@ public class MainPage extends BasePage {
                     By.xpath("//span[contains(text(),'" + paymentType + "')]")
             ));
             element.click();
-            System.out.println("✓ Выбрано: " + paymentType);
         } else {
 
             WebElement dropdown = wait.until(ExpectedConditions.elementToBeClickable(DROPDOWN_SELECTOR));
